@@ -90,23 +90,23 @@
               className="form"
               onChange={(e) => setName(e.target.value)}
               onSubmit={(e) => {
-                  if (name != "") {
-                      e.preventDefault();
-                      $.ajax({
-                          type: "GET",
-                          url: `https://api.agify.io?name=${name}`,
-                          dataType: "json",
-                          success: (result, status, xhr) => {
-                              setAge(result["age"]);
-                          },
-                          error: (xhr, status, error) => {
-                              alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
-                          }
-                      });
-                  }
-                  else {
-                      alert("Please enter a name in the form field")
-                  }
+                e.preventDefault();
+                if (name != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: `https://api.agify.io?name=${name}`,
+                        dataType: "json",
+                        success: (result, status, xhr) => {
+                            setAge(result["age"]);
+                        },
+                        error: (xhr, status, error) => {
+                            alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                        }
+                    });
+                }
+                else {
+                    alert("Please enter a name in the form field")
+                }
               }}
             >
                 <FormField labelInputMapping="name" labelText="Enter name: " inputType="text" />
