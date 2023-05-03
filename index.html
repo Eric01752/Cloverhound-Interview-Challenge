@@ -78,7 +78,7 @@
                 <Form setAge={setAge} />
             </div>
         );
-      }
+      };
 
       // Form Component
       const Form = ({setAge}) => {
@@ -105,7 +105,7 @@
                     });
                 }
                 else {
-                    alert("Please enter a name in the form field")
+                    alert("Please enter a name in the form field");
                 }
               }}
             >
@@ -113,7 +113,7 @@
                 <FormButton buttonType="submit" buttonText="Submit Form" />
             </form>
         );
-      }
+      };
 
       // Form Field Component
       const FormField = ({labelInputMapping, labelText, inputType, inputClass}) => {
@@ -130,14 +130,14 @@
         return (
           <button type={buttonType} className="formButton">{buttonText}</button>
         );
-      }
+      };
 
       // Age Display Component
       const AgeDisplay = ({age}) => {
         return (
             <h2 className="ageDisplay">{age != null ? "Predicted Age: " + age : ""}</h2>
         );
-      }
+      };
 
       // Attach App Component to root div
       ReactDOM.render(<App />, document.querySelector('#root'));
