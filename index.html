@@ -2,13 +2,69 @@
 <html>
   <head>
     <title>React Test</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overflow: hidden;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 24px;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        min-width: 100vw;
+      }
+
+      .form {
+        padding: 25px;
+        border: 2px black solid;
+        border-radius: 1rem;
+      }
+
+      .formInput {
+        border: none;
+        outline: none;
+        padding: 5px 5px 5px 0px;
+        font-size: 24px;
+        border-bottom: solid 2px #e0dfdf;
+      }
+
+      .formButton {
+        width: 100%;
+        min-height: 30px;
+        margin-top: 10px;
+        background-color:green;
+        border: 1px black solid;
+        border-radius: 0.5rem;
+        font-size: 20px;
+        color: white;
+        padding: 8px;
+      }
+
+      .formButton:hover {
+        background-color: rgb(0, 161, 0);
+        cursor: pointer;
+      }
+
+      .ageDisplay {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+    </style>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root" class="container"></div>
     <script type="text/babel">
       const App = () => {
         const [age, setAge] = React.useState(null);
@@ -26,34 +82,52 @@
 
         return (
             <form
-                onChange={(e) => setName(e.target.value)}
-                onSubmit={(e) => {
-                    if (name != "") {
-                        e.preventDefault();
-                        $.ajax({
-                            type: "GET",
-                            url: `https://api.agify.io?name=${name}`,
-                            dataType: "json",
-                            success: (result, status, xhr) => {
-                                setAge(result["age"]);
-                            },
-                            error: (xhr, status, error) => {
-                                alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
-                            }
-                        });
-                    }
-                }}
+              className="form"
+              onChange={(e) => setName(e.target.value)}
+              onSubmit={(e) => {
+                  if (name != "") {
+                      e.preventDefault();
+                      $.ajax({
+                          type: "GET",
+                          url: `https://api.agify.io?name=${name}`,
+                          dataType: "json",
+                          success: (result, status, xhr) => {
+                              setAge(result["age"]);
+                          },
+                          error: (xhr, status, error) => {
+                              alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                          }
+                      });
+                  }
+                  else {
+                      alert("Please enter a name in the form field")
+                  }
+              }}
             >
-                <label for="name">Enter name: </label><br />
-                <input type="text" name="name"></input><br />
-                <button type="submit">Submit Form</button>
+                <FormField labelInputMapping="name" labelText="Enter name: " inputType="text" />
+                <FormButton buttonType="submit" buttonText="Submit Form" />
             </form>
+        );
+      }
+
+      const FormField = ({labelInputMapping, labelText, inputType, inputClass}) => {
+        return (
+          <React.Fragment>
+            <label for={labelInputMapping}>{labelText}</label><br />
+            <input className="formInput" type={inputType} name={labelInputMapping}></input><br />
+          </React.Fragment>
+        );
+      }
+
+      const FormButton = ({buttonType, buttonText}) => {
+        return (
+          <button type={buttonType} className="formButton">{buttonText}</button>
         );
       }
 
       const AgeDisplay = ({age}) => {
         return (
-            <h1>{age != null ? "Predicted age: " + age : ""}</h1>
+            <h2 className="ageDisplay">{age != null ? "Predicted Age: " + age : ""}</h2>
         );
       }
 
