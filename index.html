@@ -18,6 +18,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
         min-height: 100vh;
         min-width: 100vw;
       }
@@ -64,20 +65,24 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
   </head>
   <body>
-    <div id="root" class="container"></div>
+    <div id="root"></div>
     <script type="text/babel">
+      // Root Component
       const App = () => {
+        // State to hold the age returned from Agify.io api
         const [age, setAge] = React.useState(null);
 
         return (
-            <div>
+            <div class="container">
                 <AgeDisplay age={age} />
                 <Form setAge={setAge} />
             </div>
         );
       }
 
+      // Form Component
       const Form = ({setAge}) => {
+        // State to hold the text currently in the name input field
         const [name, setName] = React.useState("");
 
         return (
@@ -110,6 +115,7 @@
         );
       }
 
+      // Form Field Component
       const FormField = ({labelInputMapping, labelText, inputType, inputClass}) => {
         return (
           <React.Fragment>
@@ -119,18 +125,21 @@
         );
       }
 
+      // Form Button Component
       const FormButton = ({buttonType, buttonText}) => {
         return (
           <button type={buttonType} className="formButton">{buttonText}</button>
         );
       }
 
+      // Age Display Component
       const AgeDisplay = ({age}) => {
         return (
             <h2 className="ageDisplay">{age != null ? "Predicted Age: " + age : ""}</h2>
         );
       }
 
+      // Attach App Component to root div
       ReactDOM.render(<App />, document.querySelector('#root'));
     </script>
   </body>
