@@ -10,8 +10,51 @@
   <body>
     <div id="root"></div>
     <script type="text/babel">
-      const App = () =>{
-        return (<div>Implement me!</div>);
+      const App = () => {
+        const [age, setAge] = React.useState(null);
+
+        return (
+            <div>
+                <AgeDisplay age={age} />
+                <Form setAge={setAge} />
+            </div>
+        );
+      }
+
+      const Form = ({setAge}) => {
+        const [name, setName] = React.useState("");
+
+        return (
+            <form
+                onChange={(e) => setName(e.target.value)}
+                onSubmit={(e) => {
+                    if (name != "") {
+                        e.preventDefault();
+                        $.ajax({
+                            type: "GET",
+                            url: `https://api.agify.io?name=${name}`,
+                            dataType: "json",
+                            success: (result, status, xhr) => {
+                                setAge(result["age"]);
+                            },
+                            error: (xhr, status, error) => {
+                                alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
+                            }
+                        });
+                    }
+                }}
+            >
+                <label for="name">Enter name: </label><br />
+                <input type="text" name="name"></input><br />
+                <button type="submit">Submit Form</button>
+            </form>
+        );
+      }
+
+      const AgeDisplay = ({age}) => {
+        return (
+            <h1>{age != null ? "Predicted age: " + age : ""}</h1>
+        );
       }
 
       ReactDOM.render(<App />, document.querySelector('#root'));
